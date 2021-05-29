@@ -1,0 +1,8 @@
+<div class="report-widget-wrap" ng-if="data.user == '263b694a2f143010460c59ab2799b62e'">
+
+	<h2 ng-if="c.showTitle" tabindex="0" id="{{'title-' + c.widget.rectangle_id }}" class="report-widget-title">{{c.title}}</h2>
+
+	<div id="report-widget-{{c.rectangleId}}">
+     {{::c.initialMessage}}
+  </div>
+</div>

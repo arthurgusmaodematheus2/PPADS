@@ -1,0 +1,210 @@
+<div ng-if="data.usuarioLogado == 'cliente'">
+  <h1>
+    Meus Cadastros
+  </h1>
+  <div class="col-xs-12 col-sm-4 text-center btn-primary" ng-class="{'botao-clicado': data.item._filme}" style="padding: 10px 0;" ng-click="mostrarFilme()">
+    <span style="color: #fff important;">
+      Filmes
+    </span>  
+  </div>
+  <div class="col-xs-12 col-sm-4 text-center btn-primary" ng-class="{'botao-clicado': data.item._serie}" style="padding: 10px 0;" ng-click="mostrarSerie()">
+    <span style="color: #fff important;">
+      Séries
+    </span>  
+  </div>
+  <div class="col-xs-12 col-sm-4 text-center btn-primary" ng-class="{'botao-clicado': data.item._livro}" style="padding: 10px 0;" ng-click="mostrarLivro()">
+    <span style="color: #fff important;">
+      Livros
+    </span>  
+  </div>
+  <table class="table" ng-if="data.item._filme">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">Título</th>
+        <th scope="col">Diretor</th>
+        <th scope="col">Elenco Principal</th>
+        <th scope="col">País</th>
+        <th scope="col">Ano</th>
+        <th scope="col">Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat='filme in data.item.filmes'>
+        <td>{{filme.titulo}}</td>
+        <td>{{filme.diretor}}</td>
+        <td>{{filme.elenco}}</td>
+        <td>{{filme.pais}}</td>
+        <td>{{filme.ano}}</td>
+        <td>{{filme.status}}</td>
+      </tr>
+    </tbody>
+  </table>
+  <table class="table" ng-if="data.item._serie">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">Título</th>
+        <th scope="col">Temporadas</th>
+        <th scope="col">Diretor</th>
+        <th scope="col">Elenco Principal</th>
+        <th scope="col">País</th>
+        <th scope="col">Ano</th>
+        <th scope="col">Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat='serie in data.item.series'>
+        <td>{{serie.titulo}}</td>
+        <td>{{serie.temporada}}</td>
+        <td>{{serie.diretor}}</td>
+        <td>{{serie.elenco}}</td>
+        <td>{{serie.pais}}</td>
+        <td>{{serie.ano}}</td>
+        <td>{{serie.status}}</td>
+      </tr>
+    </tbody>
+  </table>
+  <table class="table" ng-if="data.item._livro">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">Título</th>
+        <th scope="col">Autor</th>
+        <th scope="col">Editora</th>
+        <th scope="col">Páis</th>
+        <th scope="col">Ano</th>
+        <th scope="col">Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat='livro in data.item.livros'>
+        <td>{{livro.titulo}}</td>
+        <td>{{livro.autor}}</td>
+        <td>{{livro.editora}}</td>
+        <td>{{livro.pais}}</td>
+        <td>{{livro.ano}}</td>
+        <td>{{livro.status}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div ng-if="data.usuarioLogado == 'cliente'">
+  <h1>
+    Minhas Avaliações
+  </h1>
+  <table class="table" ng-if="data.item._filme">
+    <thead class="thead-dark" style="background: #1F8476; color: white;">
+      <tr>
+        <th class="text-center" scope="col">Produto</th>
+        <th class="text-center" scope="col">Tipo</th>
+        <th class="text-center" scope="col">Nota</th>
+        <th class="text-center" scope="col">Joinha</th>
+        <th class="text-center" scope="col">Comentários</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat='ava in data.avaliacoes | orderBy: "-joinha"'>
+        <td class="text-center">{{ava.produto}}</td>
+        <td class="text-center">{{ava.tipo}}</td>
+        <td class="text-center">{{ava.nota}}</td>
+        <td class="text-center">{{ava.joinha}}</td>
+        <td class="text-center">{{ava.comentarios}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div ng-if="data.usuarioLogado == 'admin'">
+  <h1>
+    Produtos pendente de aprovação
+  </h1>
+  <div class="col-xs-12 col-sm-4 text-center btn-primary" ng-class="{'botao-clicado': data.item._filme}" style="padding: 10px 0;" ng-click="mostrarFilme()">
+    <span style="color: #fff important;">
+      Filmes
+    </span>  
+  </div>
+  <div class="col-xs-12 col-sm-4 text-center btn-primary" ng-class="{'botao-clicado': data.item._serie}" style="padding: 10px 0;" ng-click="mostrarSerie()">
+    <span style="color: #fff important;">
+      Séries
+    </span>  
+  </div>
+  <div class="col-xs-12 col-sm-4 text-center btn-primary" ng-class="{'botao-clicado': data.item._livro}" style="padding: 10px 0;" ng-click="mostrarLivro()">
+    <span style="color: #fff important;">
+      Livros
+    </span>  
+  </div>
+  <table class="table" ng-if="data.item._filme">
+    <thead class="thead-dark">
+      <tr>
+        <th class="text-center" scope="col">Título</th>
+        <th class="text-center" scope="col">Diretor</th>
+        <th class="text-center" scope="col">Elenco Principal</th>
+        <th class="text-center" scope="col">País</th>
+        <th class="text-center" scope="col">Ano</th>
+        <th class="text-center" scope="col">Status</th>
+        <th class="text-center" scope="col" colspan="2">Ação</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat='filme in data.item.filmes'>
+        <td class="text-center">{{filme.titulo}}</td>
+        <td class="text-center">{{filme.diretor}}</td>
+        <td class="text-center">{{filme.elenco}}</td>
+        <td class="text-center">{{filme.pais}}</td>
+        <td class="text-center">{{filme.ano}}</td>
+        <td class="text-center">{{filme.status}}</td>
+        <td class="text-center"><i class="icon-workflow-approved" ng-click="aprovarProduto(filme.sys_id);" style="font-size: 16px; color: green; cursor: pointer;"></i></td>
+        <td class="text-center"><i class="icon-workflow-approval-rejected" ng-click="rejeitarProduto(filme.sys_id);" style="font-size: 16px; color: red; cursor: pointer;"></i></td>
+      </tr>
+    </tbody>
+  </table>
+  <table class="table" ng-if="data.item._serie">
+    <thead class="thead-dark">
+      <tr>
+        <th class="text-center" scope="col">Título</th>
+        <th class="text-center" scope="col">Temporadas</th>
+        <th class="text-center" scope="col">Diretor</th>
+        <th class="text-center" scope="col">Elenco Principal</th>
+        <th class="text-center" scope="col">País</th>
+        <th class="text-center" scope="col">Ano</th>
+        <th class="text-center" scope="col">Status</th>
+        <th class="text-center" scope="col" colspan="2">Ação</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat='serie in data.item.series'>
+        <td class="text-center">{{serie.titulo}}</td>
+        <td class="text-center">{{serie.temporada}}</td>
+        <td class="text-center">{{serie.diretor}}</td>
+        <td class="text-center">{{serie.elenco}}</td>
+        <td class="text-center">{{serie.pais}}</td>
+        <td class="text-center">{{serie.ano}}</td>
+        <td class="text-center">{{serie.status}}</td>
+        <td class="text-center"><i class="icon-workflow-approved" ng-click="aprovarProduto(serie.sys_id);" style="font-size: 16px; color: green; cursor: pointer;"></i></td>
+        <td class="text-center"><i class="icon-workflow-approval-rejected" ng-click="rejeitarProduto(serie.sys_id);" style="font-size: 16px; color: red; cursor: pointer;"></i></td>
+      </tr>
+    </tbody>
+  </table>
+  <table class="table" ng-if="data.item._livro">
+    <thead class="thead-dark">
+      <tr>
+        <th class="text-center" scope="col">Título</th>
+        <th class="text-center" scope="col">Autor</th>
+        <th class="text-center" scope="col">Editora</th>
+        <th class="text-center" scope="col">Páis</th>
+        <th class="text-center" scope="col">Ano</th>
+        <th class="text-center" scope="col">Status</th>
+        <th class="text-center" scope="col" colspan="2">Ação</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat='livro in data.item.livros'>
+        <td class="text-center">{{livro.titulo}}</td>
+        <td class="text-center">{{livro.autor}}</td>
+        <td class="text-center">{{livro.editora}}</td>
+        <td class="text-center">{{livro.pais}}</td>
+        <td class="text-center">{{livro.ano}}</td>
+        <td class="text-center">{{livro.status}}</td>
+        <td class="text-center"><i class="icon-workflow-approved" ng-click="aprovarProduto(livro.sys_id);" style="font-size: 16px; color: green; cursor: pointer;"></i></td>
+        <td class="text-center"><i class="icon-workflow-approval-rejected" ng-click="rejeitarProduto(livro.sys_id);" style="font-size: 16px; color: red; cursor: pointer;"></i></td>
+      </tr>
+    </tbody>
+  </table>
+</div>

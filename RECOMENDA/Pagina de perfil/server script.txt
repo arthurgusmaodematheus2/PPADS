@@ -1,0 +1,51 @@
+(function() {
+	/* populate the 'data' object */
+	/* e.g., data.table = $sp.getValue('table'); */
+	data.usuario = {}
+
+	function buscarDados(){
+		var gr = new GlideRecord('sys_user');
+		gr.get(gs.getUserID());
+		gr.query();
+		if(gr.next()){
+			data.usuario.nome_completo = gr.first_name.toString();
+			data.usuario.email = gr.email.toString();
+			data.usuario.username = gr.user_name.toString();
+			//data.usuario.senha = gr.user_password.toString();
+			data.usuario.data_nascimento = gr.u_data_nascimento.toString();
+			data.usuario.cidade = gr.u_cidade.toString();
+			data.usuario.estado = gr.u_estado.toString();
+		}	
+	}
+	buscarDados();
+
+	if (input.action == 'alterar') {
+		var gr = new GlideRecord('sys_user');
+		gr.get(gs.getUserID());
+		gr.query();
+		if(gr.next()){
+			gr.first_name = input.data.nome_completo;
+			gr.email = input.data.email;
+			gr.user_name = input.data.username;
+			if(input.data.senha != ''){
+				gr.user_password = input.data.senha;	
+			}
+			gr.u_data_nascimento = input.data.data_nascimento;
+			gr.u_cidade = input.data.cidade;
+			gr.u_estado = input.data.estado;
+			gr.update();
+		}
+		buscarDados();
+	}
+	
+	if (input.action == 'excluir') {
+		var gr2 = new GlideRecord('sys_user');
+		gr2.get('ca6217162f90b010460c59ab2799b642');
+		gr2.query();
+		if(gr2.next()){
+			gr2.active = false;
+			gr2.update();
+		}
+		buscarDados();
+	}
+})();

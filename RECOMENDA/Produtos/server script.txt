@@ -1,0 +1,97 @@
+(function() {
+	/* populate the 'data' object */
+	var arrayFilmes = [];
+	var arraySeries = [];
+	var arrayLivros = [];
+	var arrayAvaliacoes = [];
+	data.item = {};
+
+	function consultarFilmes(){
+		var gr = new GlideRecord('u_produto');
+		gr.addEncodedQuery('u_status=aprovado');
+		gr.query();
+		while(gr.next()){
+			if(gr.u_tipo == 'filme'){
+				arrayFilmes.push({
+					titulo: gr.u_titulo.toString(),
+					diretor:gr.u_diretor.toString(),
+					elenco:gr.u_elenco_principal.toString(),
+					pais:gr.u_pais.toString(),
+					ano:gr.u_ano.toString(),
+					status: gr.u_status.toString()
+				});
+			}else if(gr.u_tipo == 'serie'){
+				arraySeries.push({
+					titulo: gr.u_titulo.toString(),
+					temporada: gr.u_temporadas.toString(),
+					diretor:gr.u_diretor.toString(),
+					elenco:gr.u_elenco_principal.toString(),
+					pais:gr.u_pais.toString(),
+					ano:gr.u_ano.toString(),
+					status: gr.u_status.toString()
+				});
+			}else if(gr.u_tipo == "livro"){
+				arrayLivros.push({
+					titulo: gr.u_titulo.toString(),
+					autor:gr.u_autor.toString(),
+					editora:gr.u_editora.toString(),
+					pais:gr.u_pais.toString(),
+					ano:gr.u_ano.toString(),
+					status: gr.u_status.toString()
+				});
+			}
+		}
+		data.item.filmes = arrayFilmes;
+		data.item.series = arraySeries;
+		data.item.livros = arrayLivros;
+		data.item._filme = true;
+		data.item._serie = false;
+		data.item._livro = false;
+	}
+	consultarFilmes();
+
+	function buscarUsuario(user_name){
+		var user = new GlideRecord('sys_user');
+		user.addEncodedQuery('user_name=' + user_name);
+		user.query();
+		if(user.next()){
+			return user.name.toString();
+		}
+	}
+
+
+
+	function consultarAvaliacoes(item){
+		var ava = new GlideRecord('u_avaliacao');
+		ava.addEncodedQuery('u_item.u_titulo=' + item);
+		ava.query();
+		while(ava.next()){
+			var joinha = [];
+			var liked = false;
+			if(ava.u_joinha.toString()){
+				joinha = ava.u_joinha.toString().split(',');	
+			}
+
+			if(ava.u_joinha.toString().indexOf(gs.getUserID()) != -1){
+				liked = true;
+			}
+			arrayAvaliacoes.push({
+				sys_id: ava.sys_id.toString(),
+				item: ava.u_item.u_titulo.toString(),
+				nota:ava.u_nota.toString(),
+				joinha: joinha.length,
+				_liked: liked,
+				comentarios:ava.u_comentarios.toString(),
+				autor: buscarUsuario(ava.sys_created_by.toString())
+			});
+		}
+		//data.avaliacoes = arrayAvaliacoes;
+	}
+	//consultarAvaliacoes();
+
+	if (input.action == 'consultarAvaliacoes') {
+		//gs.info('Teste ' + input.data);
+		consultarAvaliacoes(input.data);
+		data.avaliacoes = arrayAvaliacoes;
+	}
+})();

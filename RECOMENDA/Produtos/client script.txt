@@ -1,0 +1,174 @@
+function($scope, $document, $rootScope, i18n, spScUtil, $http, spUtil) {
+	/* widget controller */
+	var c = this;
+	$scope._cadastrar = false;
+	$scope._avaliacoes = false;
+	$scope._avaliar = false;
+	$scope._like = false;
+	$scope.formCadastro = {};
+	$scope.formAvaliacao = {};
+	$scope._modal = false;
+	$scope.itemAvaliado = "";
+	$scope._avaliacaoError = false;
+	//console.log(c.data.filmes);
+
+	$scope.validadorCampos = function(campo){
+		if(campo != '' && campo != null && campo != undefined){
+			return true;
+		}
+		return false;
+	}
+
+	$scope.cadastrar = function(formCadastro){
+		if(formCadastro.tipo == 'serie'){
+			if($scope.validadorCampos(formCadastro.titulo) &&
+				 $scope.validadorCampos(formCadastro.temporada) &&
+				 $scope.validadorCampos(formCadastro.diretor) &&
+				 $scope.validadorCampos(formCadastro.elenco) &&
+				 $scope.validadorCampos(formCadastro.pais) && 
+				 $scope.validadorCampos(formCadastro.ano)){
+				$http({
+					method: 'POST',
+					url: '/api/572855/filme/cadastrar',
+					data: formCadastro
+				}).then(function(response){
+					$('#exampleModalCenter').modal('hide');
+					$scope._cadastrar = false;
+					$scope._avaliacoes = false;
+					$scope._avaliar = false;
+					//$scope._modal = false;
+				})
+			}else{
+				$scope._avaliacaoError = true;
+			}
+		}else if(formCadastro.tipo == 'filme'){
+			if($scope.validadorCampos(formCadastro.titulo) &&
+				 $scope.validadorCampos(formCadastro.diretor) &&
+				 $scope.validadorCampos(formCadastro.elenco) &&
+				 $scope.validadorCampos(formCadastro.pais) && 
+				 $scope.validadorCampos(formCadastro.ano)){
+				$http({
+					method: 'POST',
+					url: '/api/572855/filme/cadastrar',
+					data: formCadastro
+				}).then(function(response){
+					$('#exampleModalCenter').modal('hide');
+					$scope._cadastrar = false;
+					$scope._avaliacoes = false;
+					$scope._avaliar = false;
+					//$scope._modal = false;
+				})
+			}else{
+				$scope._avaliacaoError = true;
+			}
+		}else if(formCadastro.tipo == 'livro'){
+			if($scope.validadorCampos(formCadastro.titulo) &&
+				 $scope.validadorCampos(formCadastro.autor) &&
+				 $scope.validadorCampos(formCadastro.editora) &&
+				 $scope.validadorCampos(formCadastro.pais) && 
+				 $scope.validadorCampos(formCadastro.ano)){
+				$http({
+					method: 'POST',
+					url: '/api/572855/filme/cadastrar',
+					data: formCadastro
+				}).then(function(response){
+					$('#exampleModalCenter').modal('hide');
+					$scope._cadastrar = false;
+					$scope._avaliacoes = false;
+					$scope._avaliar = false;
+					//$scope._modal = false;
+				})
+			}else{
+				$scope._avaliacaoError = true;
+			}
+		}else{
+			$scope._avaliacaoError = true;
+		}
+	}
+
+	$scope.avaliacao = function(formAvaliacao){
+		if($scope.validadorCampos(formAvaliacao.nota) && $scope.validadorCampos(formAvaliacao.comentario)){
+			$http({
+				method: 'POST',
+				url: '/api/572855/filme/avaliar',
+				data: formAvaliacao
+			}).then(function(response){
+				$scope.visualizarAvaliacoes(formAvaliacao.itemAvaliado);
+				//$('#exampleModalCenter').modal('hide');
+				//$scope._cadastrar = false;
+				//$scope._avaliacoes = false;
+				//$scope._avaliar = false;
+			})
+		}else{
+			$scope._avaliacaoError = true;
+		}
+	}
+
+	$scope.visualizarAvaliacoes = function(item){
+		$scope.itemAvaliado = item;
+		c.data.avaliacoes = [];
+		$scope.server.get({
+			action: 'consultarAvaliacoes',
+			data: item
+		}).then(function (r) {
+			//console.log(r.data);
+			c.data.avaliacoes = r.data.avaliacoes;
+
+		});
+		$scope._modal = true;
+		$scope._cadastrar = false;
+		$scope._avaliacoes = true;
+		$scope._avaliar = false;
+	}
+
+	$scope.formularioAvaliacao = function(){
+		$scope.formAvaliacao.itemAvaliado = $scope.itemAvaliado;
+		$scope.formAvaliacao.nota = '';
+		$scope.formAvaliacao.comentario = '';
+		$scope._modal = true;
+		$scope._cadastrar = false;
+		$scope._avaliacoes = false;
+		$scope._avaliar = true;
+	}
+	$scope.visualizarCadastro = function(){
+		$scope._modal = true;
+		$scope._avaliacoes = false;
+		$scope._cadastrar = true;
+		$scope._avaliar = false;
+	}
+
+	$scope.darLike = function(avaliacao){
+		//console.log(avaliacao)
+		$http({
+			method: 'POST',
+			url: '/api/572855/filme/like',
+			data: avaliacao
+		}).then(function(response){
+			//console.log(response.data.result);
+			$scope.visualizarAvaliacoes(avaliacao.item);
+		})
+	}
+
+	$scope.mostrarFilme = function(){
+		//console.log('filme');
+		c.data.item._livro = false;
+		c.data.item._serie = false;
+		c.data.item._filme = true;
+	};
+	$scope.mostrarSerie = function(){
+		//console.log('serie');
+		c.data.item._filme = false;
+		c.data.item._livro = false;
+		c.data.item._serie = true;
+	};
+	$scope.mostrarLivro = function(){
+		//console.log('livros');
+		c.data.item._filme = false;
+		c.data.item._serie = false;
+		c.data.item._livro = true;
+	};
+	
+	$scope.errorFalse = function(){
+		$scope._avaliacaoError = false;
+	}
+}

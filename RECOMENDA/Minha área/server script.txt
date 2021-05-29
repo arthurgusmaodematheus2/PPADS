@@ -1,0 +1,98 @@
+(function() {
+	/* populate the 'data' object */
+	var arrayFilmes = [];
+	var arraySeries = [];
+	var arrayLivros = [];
+	var arrayAvaliacoes = [];
+	data.item = {};
+	data.item._filme = true;
+	data.item._serie = false;
+	data.item._livro = false;
+	data.avaliacoes = [];
+	var query = '';
+
+	data.usuarioLogado = 'cliente';
+	if(gs.getUserID() == 'fb9a694a2f143010460c59ab2799b65b'){
+		data.usuarioLogado = 'admin';
+		query = 'u_status=pendente';
+	}else{
+		query = 'sys_created_by=' + gs.getUserName();
+	}
+	function consultarFilmes(){
+		var gr = new GlideRecord('u_produto');
+		gr.addEncodedQuery(query);
+		gr.query();
+		while(gr.next()){
+			if(gr.u_tipo == 'filme'){
+				arrayFilmes.push({
+					titulo: gr.u_titulo.toString(),
+					diretor:gr.u_diretor.toString(),
+					elenco:gr.u_elenco_principal.toString(),
+					pais:gr.u_pais.toString(),
+					ano:gr.u_ano.toString(),
+					status: gr.u_status.getDisplayValue(),
+					sys_id: gr.sys_id.toString()
+				});
+			}else if(gr.u_tipo == 'serie'){
+				arraySeries.push({
+					titulo: gr.u_titulo.toString(),
+					temporada: gr.u_temporadas.toString(),
+					diretor:gr.u_diretor.toString(),
+					elenco:gr.u_elenco_principal.toString(),
+					pais:gr.u_pais.toString(),
+					ano:gr.u_ano.toString(),
+					status: gr.u_status.getDisplayValue(),
+					sys_id: gr.sys_id.toString()
+				});
+			}else if(gr.u_tipo == "livro"){
+				arrayLivros.push({
+					titulo: gr.u_titulo.toString(),
+					autor:gr.u_autor.toString(),
+					editora:gr.u_editora.toString(),
+					pais:gr.u_pais.toString(),
+					ano:gr.u_ano.toString(),
+					status: gr.u_status.getDisplayValue(),
+					sys_id: gr.sys_id.toString()
+				});
+			}
+		}
+
+		data.item.filmes = arrayFilmes;
+		data.item.series = arraySeries;
+		data.item.livros = arrayLivros;
+
+	}
+	consultarFilmes();
+	
+	function consultarAvaliacoes(){
+		var ava = new GlideRecord('u_avaliacao');
+		ava.addEncodedQuery('sys_created_by=' + gs.getUserName());
+		ava.query();
+		while(ava.next()){
+			var joinha = ava.u_joinha.toString();
+			var qtdJoinha = 0;
+			if(joinha.indexOf(',') != -1){
+			joinha = joinha.split(',');	
+			qtdJoinha = joinha.length;
+			}else if(joinha != ''){
+				qtdJoinha = 1;
+			}
+			
+			arrayAvaliacoes.push({
+				produto: ava.u_item.u_titulo.toString(),
+				tipo: ava.u_item.u_tipo.getDisplayValue(),
+				nota: ava.u_nota.toString(),
+				joinha: qtdJoinha,
+				comentarios: ava.u_comentarios.toString()
+			});
+		}
+		data.avaliacoes = arrayAvaliacoes;
+	}
+	consultarAvaliacoes();
+	
+	if (input.action == 'consultarPendencias') {
+		data.item.filmes = arrayFilmes;
+		data.item.series = arraySeries;
+		data.item.livros = arrayLivros;
+	}
+})();

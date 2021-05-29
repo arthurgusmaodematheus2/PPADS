@@ -1,0 +1,6 @@
+var aisEnabled = $sp.isAISearchEnabled();
+
+if (aisEnabled)
+	data.typeAheadSearch = $sp.getWidget('typeahead-search', options);
+else
+	data.typeAheadSearch = $sp.getWidget('typeahead-search', options.typeahead_search);

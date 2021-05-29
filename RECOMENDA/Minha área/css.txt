@@ -1,0 +1,25 @@
+.card {
+  color: #000;
+  background: #EFEFEF;
+  border-radius: 6px;
+  border-top: 2px solid #5A7F71;
+  display: inline-block;
+  //height: 150px;
+  margin: 0 auto;
+  position: relative;
+  width: 100%;
+  margin-bottom: 10px;
+}
+.card-2 {
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+}
+.like-azul{
+	color: #3a63e0;
+}
+.botao-clicado{
+	background-color: #155b51 !important;
+}
+.padding-tb{
+	padding-top: 5px;
+  padding-bottom: 5px;
+}

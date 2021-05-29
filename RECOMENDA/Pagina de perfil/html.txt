@@ -1,0 +1,41 @@
+<div>
+  <h1>
+    Página de Perfil
+  </h1>
+  <form ng-model="data.usuario">
+    <div class="row">
+      <div class="col-xs-12 col-sm-6">
+        <label>Nome completo</label>
+        <input type="text" class="form-control" placeholder="Nome completo" ng-model="data.usuario.nome_completo" ng-change="errorFalse();">
+      </div>
+      <div class="col-xs-12 col-sm-6">
+        <label>Email</label>
+        <input type="text" class="form-control" placeholder="Email" ng-model="data.usuario.email" ng-change="errorFalse();">
+      </div>
+      <div class="col-xs-12 col-sm-6">
+        <label>Username</label>
+        <input type="text" class="form-control" placeholder="Username" ng-model="data.usuario.username" ng-change="errorFalse();">
+      </div>
+      <div class="col-xs-12 col-sm-6">
+        <label>Senha</label>
+        <input type="text" class="form-control" placeholder="Senha" ng-model="data.usuario.senha" ng-change="errorFalse();">
+      </div>
+      <div class="col-xs-12 col-sm-6">
+        <label>Data de nascimento</label>
+        <input type="text" class="form-control" placeholder="Data de nascimento" ng-model="data.usuario.data_nascimento" ng-change="errorFalse();">
+      </div>
+      <div class="col-xs-12 col-sm-6">
+        <label>Cidade</label>
+        <input type="text" class="form-control" placeholder="Cidade" ng-model="data.usuario.cidade" ng-change="errorFalse();">
+      </div>
+      <div class="col-xs-12 col-sm-6">
+        <label>Estado</label>
+        <input type="text" class="form-control" placeholder="Estado" ng-model="data.usuario.estado" ng-change="errorFalse();">
+      </div>
+    </div>
+    <span class="error" ng-if="_avaliacaoError">É necessário preencher os campos acima.</span>
+  </form>
+  <button class="btn btn-primary pull-right" ng-click="alterarPerfil(data.usuario)" style="margin-right: 15px;">
+    Alterar
+  </button>
+</div>

@@ -1,0 +1,193 @@
+<div>
+  <h1>
+    Lista de Produtos
+  </h1>
+  <div class="col-xs-12 col-sm-4 text-center btn-primary" ng-class="{'botao-clicado': data.item._filme}" style="padding: 10px 0;" ng-click="mostrarFilme()">
+    <span style="color: #fff important;">
+      Filmes
+    </span>  
+  </div>
+  <div class="col-xs-12 col-sm-4 text-center btn-primary" ng-class="{'botao-clicado': data.item._serie}" style="padding: 10px 0;" ng-click="mostrarSerie()">
+    <span style="color: #fff important;">
+      Séries
+    </span>  
+  </div>
+  <div class="col-xs-12 col-sm-4 text-center btn-primary" ng-class="{'botao-clicado': data.item._livro}" style="padding: 10px 0;" ng-click="mostrarLivro()">
+    <span style="color: #fff important;">
+      Livros
+    </span>  
+  </div>
+  <table class="table" ng-if="data.item._filme">
+    <thead class="thead-dark">
+      <tr>
+        <th class="text-center" scope="col">Título</th>
+        <th class="text-center" scope="col">Diretor</th>
+        <th class="text-center" scope="col">Elenco Principal</th>
+        <th class="text-center" scope="col">País</th>
+        <th class="text-center" scope="col">Ano</th>
+        <th class="text-center" scope="col">Avaliações</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat='filme in data.item.filmes'>
+        <td class="text-center">{{filme.titulo}}</td>
+        <td class="text-center">{{filme.diretor}}</td>
+        <td class="text-center">{{filme.elenco}}</td>
+        <td class="text-center">{{filme.pais}}</td>
+        <td class="text-center">{{filme.ano}}</td>
+        <td class="text-center" href="#" ng-click="visualizarAvaliacoes(filme.titulo)" data-toggle="modal" data-target="#exampleModalCenter">Visualizar</td>
+      </tr>
+    </tbody>
+  </table>
+  <table class="table" ng-if="data.item._serie">
+    <thead class="thead-dark">
+      <tr>
+        <th class="text-center" scope="col">Título</th>
+        <th class="text-center" scope="col">Temporadas</th>
+        <th class="text-center" scope="col">Diretor</th>
+        <th class="text-center" scope="col">Elenco Principal</th>
+        <th class="text-center" scope="col">País</th>
+        <th class="text-center" scope="col">Ano</th>
+        <th class="text-center" scope="col">Avaliações</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat='serie in data.item.series'>
+        <td class="text-center">{{serie.titulo}}</td>
+        <td class="text-center">{{serie.temporada}}</td>
+        <td class="text-center">{{serie.diretor}}</td>
+        <td class="text-center">{{serie.elenco}}</td>
+        <td class="text-center">{{serie.pais}}</td>
+        <td class="text-center">{{serie.ano}}</td>
+        <td class="text-center" href="#" ng-click="visualizarAvaliacoes(serie.titulo)" data-toggle="modal" data-target="#exampleModalCenter">Visualizar</td>
+      </tr>
+    </tbody>
+  </table>
+  <table class="table" ng-if="data.item._livro">
+    <thead class="thead-dark">
+      <tr>
+        <th class="text-center" scope="col">Título</th>
+        <th class="text-center" scope="col">Autor</th>
+        <th class="text-center" scope="col">Editora</th>
+        <th class="text-center" scope="col">Páis</th>
+        <th class="text-center" scope="col">Ano</th>
+        <th class="text-center" scope="col">Avaliações</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat='livro in data.item.livros'>
+        <td class="text-center">{{livro.titulo}}</td>
+        <td class="text-center">{{livro.autor}}</td>
+        <td class="text-center">{{livro.editora}}</td>
+        <td class="text-center">{{livro.pais}}</td>
+        <td class="text-center">{{livro.ano}}</td>
+        <td class="text-center" href="#" ng-click="visualizarAvaliacoes(livro.titulo)" data-toggle="modal" data-target="#exampleModalCenter">Visualizar</td>
+      </tr>
+    </tbody>
+  </table>
+  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter" ng-click="visualizarCadastro()">
+    Cadastrar
+  </button>
+</div>
+<!-- Button trigger modal -->
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" ng-if="_modal">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="exampleModalLongTitle" ng-if="_cadastrar">Cadastrar Filme</h4>
+        <h4 class="modal-title" id="exampleModalLongTitle" ng-if="_avaliar">Avaliar Item</h4>
+        <h4 class="modal-title" id="exampleModalLongTitle" ng-if="_avaliacoes">Avaliações</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form ng-model="formCadastro" ng-if="_cadastrar">
+          <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 padding-tb">
+              <select class="form-control" id="exampleFormControlSelect2" ng-model="formCadastro.tipo" ng-change="errorFalse();">
+                <option value="">Selecione...</option>
+                <option value="livro">Livro</option>
+                <option value="serie">Série</option>
+                <option value="filme">Filme</option>
+              </select>
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-6 padding-tb" ng-if="formCadastro.tipo == 'livro' || formCadastro.tipo == 'filme' ||formCadastro.tipo == 'serie'">
+              <input type="text" class="form-control" placeholder="Título" ng-model="formCadastro.titulo" ng-change="errorFalse();">
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-6 padding-tb" ng-if="formCadastro.tipo == 'serie'">
+              <input type="number" class="form-control" placeholder="Temporadas" ng-model="formCadastro.temporada" ng-change="errorFalse();">
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-6 padding-tb" ng-if="formCadastro.tipo == 'filme' || formCadastro.tipo == 'serie'">
+              <input type="text" class="form-control" placeholder="Diretor" ng-model="formCadastro.diretor" ng-change="errorFalse();">
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-6 padding-tb" ng-if="formCadastro.tipo == 'filme' || formCadastro.tipo == 'serie'">
+              <input type="text" class="form-control" placeholder="Elenco Principal" ng-model="formCadastro.elenco" ng-change="errorFalse();">
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-6 padding-tb" ng-if="formCadastro.tipo == 'livro'">
+              <input type="text" class="form-control" placeholder="Autor" ng-model="formCadastro.autor" ng-change="errorFalse();">
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-6 padding-tb" ng-if="formCadastro.tipo == 'livro'">
+              <input type="text" class="form-control" placeholder="Editora" ng-model="formCadastro.editora" ng-change="errorFalse();">
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-6 padding-tb"  ng-if="formCadastro.tipo == 'livro' || formCadastro.tipo == 'filme' ||formCadastro.tipo == 'serie'">
+              <input type="text" class="form-control" placeholder="País" ng-model="formCadastro.pais" ng-change="errorFalse();">
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-6 padding-tb" ng-if="formCadastro.tipo == 'livro' || formCadastro.tipo == 'filme' ||formCadastro.tipo == 'serie'">
+              <input type="text" class="form-control" placeholder="Ano" ng-model="formCadastro.ano" ng-change="errorFalse();">
+            </div>
+          </div>
+          <span class="error" ng-if="_avaliacaoError">É necessário preencher os campos acima.</span>
+        </form>
+        <div class="card card-2" ng-if="_avaliacoes" ng-repeat="avaliacao in data.avaliacoes | orderBy: '-joinha'">
+
+          <h6 style="margin: 5px;"><b>Item: </b>{{avaliacao.item}}</h6>
+          <h6 style="margin: 5px;"><b>Nota: </b>{{avaliacao.nota}}</h6>
+          <h6 style="margin: 5px;"><b>Comentários: </b>{{avaliacao.comentarios}}</h6>
+          <h6 style="margin: 5px;"><b>Autor(a): </b>{{avaliacao.autor}}</h6>
+          <a href="#" ng-click="darLike(avaliacao)" style="margin: 5px; text-decoration: none; color: #000;">{{avaliacao.joinha}} <i class="icon-like" style="font-size: 16px;" ng-class="{'like-azul': avaliacao._liked}"></i></a>
+        </div>
+
+        <div ng-if="_avaliar">
+          <form ng-model="formAvaliacao">
+            <div class="form-group">
+              <label for="exampleFormControlSelect2">Item a ser avaliado</label>
+              <input type="text" class="form-control" ng-model="formAvaliacao.itemAvaliado" readonly>
+            </div>
+            <div class="form-group">
+              <label for="exampleFormControlSelect2">Nota</label>
+              <select class="form-control" id="exampleFormControlSelect2" ng-model="formAvaliacao.nota" ng-change="errorFalse();">
+                <option value="">Selecione...</option>
+                <option value="0">0</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="exampleFormControlTextarea1">Comentários</label>
+              <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" ng-model="formAvaliacao.comentario" ng-change="errorFalse();"></textarea>
+            </div>
+            <span class="error" ng-if="_avaliacaoError">É necessário preencher os campos acima.</span>
+          </form>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-primary" ng-click="formularioAvaliacao()" ng-if="_avaliacoes">Avaliar</button>
+        <button type="button" class="btn btn-primary" ng-click="avaliacao(formAvaliacao)" ng-if="_avaliar">Enviar</button>
+        <button type="button" class="btn btn-primary" ng-click="cadastrar(formCadastro)" ng-if="_cadastrar">Cadastrar</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,55 @@
+function($scope, $document, $rootScope, i18n, spScUtil, $http, spUtil) {
+	/* widget controller */
+	var c = this;
+
+	$scope.aprovarProduto = function(sys_id){
+		$http({
+			method: 'POST',
+			url: '/api/572855/filme/aprovarProduto',
+			data: {sys_id: sys_id}
+		}).then(function(response){
+			$scope.server.get({
+				action: 'consultarPendencias'
+			}).then(function (r) {
+				c.data.item.filmes = r.data.item.filmes;
+				c.data.item.series = r.data.item.series;
+				c.data.item.livros = r.data.item.livros;
+			});
+		})
+	}
+
+	$scope.rejeitarProduto = function(sys_id){
+		$http({
+			method: 'POST',
+			url: '/api/572855/filme/rejeitarProduto',
+			data: {sys_id: sys_id}
+		}).then(function(response){
+			$scope.server.get({
+				action: 'consultarPendencias'
+			}).then(function (r) {
+				c.data.item.filmes = r.data.item.filmes;
+				c.data.item.series = r.data.item.series;
+				c.data.item.livros = r.data.item.livros;
+			});
+		})
+	}
+
+	$scope.mostrarFilme = function(){
+		console.log('filme');
+		c.data.item._livro = false;
+		c.data.item._serie = false;
+		c.data.item._filme = true;
+	};
+	$scope.mostrarSerie = function(){
+		console.log('serie');
+		c.data.item._filme = false;
+		c.data.item._livro = false;
+		c.data.item._serie = true;
+	};
+	$scope.mostrarLivro = function(){
+		console.log('livros');
+		c.data.item._filme = false;
+		c.data.item._serie = false;
+		c.data.item._livro = true;
+	};
+}

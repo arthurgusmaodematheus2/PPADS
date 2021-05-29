@@ -1,0 +1,46 @@
+function($scope, $document, $rootScope, i18n, spScUtil, $http, spUtil) {
+	/* widget controller */
+	var c = this;
+	$scope._avaliacaoError = false;
+
+	$scope.validadorCampos = function(campo){
+		if(campo != '' && campo != null && campo != undefined){
+			return true;
+		}
+		return false;
+	}
+
+	$scope.alterarPerfil = function(dadosAlterado){
+		if($scope.validadorCampos(dadosAlterado.nome_completo) && 
+			 $scope.validadorCampos(dadosAlterado.email) && 
+			 $scope.validadorCampos(dadosAlterado.username) && 
+			 $scope.validadorCampos(dadosAlterado.senha) &&
+			 $scope.validadorCampos(dadosAlterado.data_nascimento) &&
+			 $scope.validadorCampos(dadosAlterado.cidade) &&
+			 $scope.validadorCampos(dadosAlterado.estado)){
+			$scope.server.get({
+				action: 'alterar',
+				data: dadosAlterado
+			}).then(function (r) {
+				//console.log(r.data);
+				//c.data.avaliacoes = r.data.avaliacoes;
+
+			});
+		}else{
+			$scope._avaliacaoError = true;
+		}
+	}
+
+	$scope.excluirConta = function(){
+		$scope.server.get({
+			action: 'excluir'
+		}).then(function (r) {
+			//c.data.avaliacoes = r.data.avaliacoes;
+
+		});
+	}
+
+	$scope.errorFalse = function(){
+		$scope._avaliacaoError = false;
+	}
+}
